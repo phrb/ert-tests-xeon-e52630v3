@@ -24,7 +24,7 @@
   \def\Xmax{1.000000e+02}
 
   \begin{loglogaxis}[
-    title={Empirical Roofline Graph (Results.graoully.01/Run.001)},
+    title={Empirical Roofline Graph (Xeon E5 2630v2)},
     grid=both,
     grid style={black!50, densely dotted},
     xlabel= FLOPs/Byte,
@@ -49,6 +49,9 @@
     \addplot[memline, domain=(\Xmin:4.2366947e-01)] {2.8560000e+01*x};
     \addplot[memline, domain=(\Xmin:5.6279070e-01)] {2.1500000e+01*x};
     \addplot[maxline, domain=(1.3930463e-01:\Xmax)] {1.2100000e+01};
+
+    \node[label={180:{Theoretical GEMV}},circle,fill,inner sep=2pt] at (axis cs:0.25,36.8*0.25) {};
+    \node[label={180:{Best Achieved}},circle,fill,inner sep=2pt] at (axis cs:0.25,0.6898) {};
 
   \end{loglogaxis}
 \end{tikzpicture}
