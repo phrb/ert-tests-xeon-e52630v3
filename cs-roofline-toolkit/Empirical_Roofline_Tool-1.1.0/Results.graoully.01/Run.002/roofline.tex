@@ -1,0 +1,56 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+% You may be able to remove this if causing issues
+\pgfplotsset{compat=1.11}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \pgfplotsset {
+    scale only axis,
+    axis equal image,
+    width=6in,
+    /pgf/number format/1000 sep={},
+    /tikz/maxline/.style={blue, thick, no marks},
+    /tikz/memline/.style={red, thick, no marks},
+    /tikz/maxlabel/.style={blue!40!black, right, fill=white, fill opacity=0.7, text opacity=1.0, rounded corners=2pt, inner sep=0.5pt},
+    /tikz/memlabel/.style={red!50!black, rotate=45, right, fill=white, fill opacity=0.7, text opacity=1.0, rounded corners=2pt, inner sep=0.5pt}
+  }
+
+  \def\Xmin{1.000000e-02}
+  \def\Xmax{1.000000e+02}
+
+  \begin{loglogaxis}[
+    title={Empirical Roofline Graph (Results.graoully.01/Run.002)},
+    grid=both,
+    grid style={black!50, densely dotted},
+    xlabel= FLOPs/Byte,
+    ylabel= GFLOPs/sec,
+    xmin=\Xmin,
+    xmax=\Xmax,
+    ymin=1.000000e-01,
+    ymax= ,
+    log ticks with fixed point
+    ]
+
+    \node[maxlabel] at (axis cs: 2.0000000e+00,1.4520000e+01) {12.1 FP64/sec (Maximum)};
+    \node[memlabel] at (axis cs: 2.9918573e-02,3.1437360e+00) {L1 - 86.8 GB/s};
+    \node[memlabel] at (axis cs: 4.0379268e-02,2.3293165e+00) {L2 - 69.8 GB/s};
+    \node[memlabel] at (axis cs: 5.5475689e-02,1.6954471e+00) {L3 - 37.0 GB/s};
+    \node[memlabel] at (axis cs: 6.3292250e-02,1.4860602e+00) {L4 - 28.4 GB/s};
+    \node[memlabel] at (axis cs: 6.4250403e-02,1.1379224e+00) {DRAM - 21.4 GB/s};
+
+    \addplot[memline, domain=(\Xmin:1.3933671e-01)] {8.6840000e+01*x};
+    \addplot[memline, domain=(\Xmin:1.7335244e-01)] {6.9800000e+01*x};
+    \addplot[memline, domain=(\Xmin:3.2720389e-01)] {3.6980000e+01*x};
+    \addplot[memline, domain=(\Xmin:4.2590637e-01)] {2.8410000e+01*x};
+    \addplot[memline, domain=(\Xmin:5.6462902e-01)] {2.1430000e+01*x};
+    \addplot[maxline, domain=(1.3933671e-01:\Xmax)] {1.2100000e+01};
+
+  \end{loglogaxis}
+\end{tikzpicture}
+
+\end{document}
