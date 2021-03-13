@@ -24,24 +24,17 @@
   \def\Xmax{1.000000e+02}
 
   \begin{loglogaxis}[
-    title={Empirical Roofline Graph (Results.graoully.01/Run.003)},
+    title={Empirical Roofline Graph (\textit{Xeon E5 2630v3}, \texttt{-march=generic})},
     grid=both,
     grid style={black!50, densely dotted},
     xlabel= FLOPs/Byte,
-    ylabel= GFLOPs/sec,
+    ylabel= GFLOPs/s,
     xmin=\Xmin,
     xmax=\Xmax,
     ymin=1.000000e-01,
     ymax= ,
     log ticks with fixed point
     ]
-
-    \node[maxlabel] at (axis cs: 2.0000000e+00,1.4532000e+01) {12.1 GFLOPs/sec};
-    \node[memlabel] at (axis cs: 2.9929210e-02,3.1452158e+00) {L1 - 86.8 GB/s};
-    \node[memlabel] at (axis cs: 4.0480130e-02,2.3254329e+00) {L2 - 69.5 GB/s};
-    \node[memlabel] at (axis cs: 5.6390085e-02,1.6693329e+00) {L3 - 35.8 GB/s};
-    \node[memlabel] at (axis cs: 6.3273871e-02,1.4877204e+00) {L4 - 28.4 GB/s};
-    \node[memlabel] at (axis cs: 6.4246974e-02,1.1389236e+00) {DRAM - 21.4 GB/s};
 
     \addplot[memline, domain=(\Xmin:1.3943581e-01)] {8.6850000e+01*x};
     \addplot[memline, domain=(\Xmin:1.7421954e-01)] {6.9510000e+01*x};
@@ -50,7 +43,14 @@
     \addplot[memline, domain=(\Xmin:5.6456876e-01)] {2.1450000e+01*x};
     \addplot[maxline, domain=(1.3943581e-01:\Xmax)] {1.2110000e+01};
 
-    \node[label={180:{Best Achieved GEMV}},circle,fill,inner sep=2pt] at (axis cs:0.25,0.6898) {};
+    \node[maxlabel] at (axis cs: 2.0000000e+00,1.4532000e+01) {12.1 GFLOPs/s};
+    \node[memlabel] at (axis cs: 2.9929210e-02,3.1452158e+00) {L1 - 86.8 GB/s};
+    \node[memlabel] at (axis cs: 4.0480130e-02,2.3254329e+00) {L2 - 69.5 GB/s};
+    \node[memlabel] at (axis cs: 5.6390085e-02,1.6693329e+00) {L3 - 35.8 GB/s};
+    \node[memlabel] at (axis cs: 6.3273871e-02,1.4877204e+00) {L4 - 28.4 GB/s};
+    \node[memlabel] at (axis cs: 6.4246974e-02,1.1389236e+00) {DRAM - 21.4 GB/s};
+
+    \node[label={0:{Best Achieved GEMV}},circle,fill,inner sep=2pt] at (axis cs:0.8/3.2,0.8/1.160198) {};
 
   \end{loglogaxis}
 \end{tikzpicture}
