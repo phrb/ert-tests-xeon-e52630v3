@@ -6,6 +6,9 @@
 % You may be able to remove this if causing issues
 \pgfplotsset{compat=1.11}
 
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
 \begin{document}
 
 \begin{tikzpicture}
@@ -50,7 +53,7 @@
     \node[memlabel] at (axis cs: 6.3273871e-02,1.4877204e+00) {L4 - 28.4 GB/s};
     \node[memlabel] at (axis cs: 6.4246974e-02,1.1389236e+00) {DRAM - 21.4 GB/s};
 
-    \node[label={0:{Best Achieved GEMV}},circle,fill,inner sep=2pt] at (axis cs:0.8/3.2,0.8/1.160198) {};
+    \node[label={0:{Best Achieved \textit{dgemv3} (\texttt{-march=generic,native})}},circle,fill,inner sep=2pt] at (axis cs:0.8/3.2,0.8/1.160198) {};
 
   \end{loglogaxis}
 \end{tikzpicture}
