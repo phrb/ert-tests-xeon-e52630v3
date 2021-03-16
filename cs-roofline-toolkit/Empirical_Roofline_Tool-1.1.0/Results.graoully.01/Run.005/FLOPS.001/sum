@@ -1,0 +1,21 @@
+    11.41 FP64 GFLOPs
+
+  1724.04 Weight
+
+   182.48 L1
+   123.83 L2
+    83.73 L3
+    31.68 L4
+    24.66 L5
+    18.24 DRAM
+
+META_DATA
+  FLOPS          1
+  ERT_VERSION  1.1.0
+  HOSTNAME  ('graoully-1.nancy.grid5000.fr', [], ['172.16.70.1'])
+  UNAME  uname_result(system='Linux', node='graoully-1.nancy.grid5000.fr', release='4.19.0-14-amd64', version='#1 SMP Debian 4.19.171-2 (2021-01-30)', machine='x86_64', processor='')
+  TIMESTAMP_DATA  1615912681.536464
+  CONFIG  {'ERT_RESULTS': ['Results.graoully.01'], 'ERT_DRIVER': ['driver1'], 'ERT_KERNEL': ['kernel1'], 'ERT_OPENMP': ['False'], 'ERT_FLOPS': ['1,2,4,8,16,32'], 'ERT_ALIGN': ['64'], 'ERT_CC': ['g++'], 'ERT_CFLAGS': ['-O3', '-march=native', '-DERT_INTEL', '-fpermissive'], 'ERT_LD': ['g++'], 'ERT_LDFLAGS': [], 'ERT_LDLIBS': [], 'ERT_PRECISION': ['FP64'], 'ERT_RUN': ['ERT_CODE'], 'ERT_NUM_EXPERIMENTS': ['3'], 'ERT_MEMORY_MAX': ['1073741824'], 'ERT_WORKING_SET_MIN': ['1'], 'ERT_TRIALS_MIN': ['1'], 'ERT_GNUPLOT': ['gnuplo'], 'ERT_MPI': [False], 'ERT_GPU': [False], 'ERT_HIP': [False], 'ERT_OCL': [False], 'ERT_SYCL': [False], 'ERT_WSS_MULT': [1.1]}
+  TIMESTAMP_DATA  1615912712.5126762
+  TIMESTAMP_DATA  1615912743.5607097
+   
