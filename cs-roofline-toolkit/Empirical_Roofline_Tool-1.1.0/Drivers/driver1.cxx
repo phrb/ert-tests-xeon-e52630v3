@@ -39,7 +39,7 @@ inline void checkBuffer(T *buffer)
   }
 }
 
-#define _mm_malloc(psize, align) malloc(psize);
+#define _mm_malloc(psize, align) aligned_alloc(align, psize);
 #define _mm_free(psize) free(psize);
 
 template <typename T>
