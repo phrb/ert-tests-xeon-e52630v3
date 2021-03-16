@@ -28,7 +28,7 @@ extern int gpu_threads;
 #define KERNEL1(a, b, c) ((a) = (b) + (c))
 #define KERNEL2(a, b, c) ((a) = (a) * (b) + (c))
 
-#define __assume_aligned(lvalueptr, align) lvalueptr = __builtin_assume_aligned (lvalueptr, align)
+#define __assume_aligned(lvalueptr, align) lvalueptr = __builtin_assume_aligned(lvalueptr, align)
 
 #ifdef ERT_GPU
 // If data type is "half2"
