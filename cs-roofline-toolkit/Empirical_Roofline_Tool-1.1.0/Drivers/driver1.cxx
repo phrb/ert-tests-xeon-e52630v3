@@ -39,6 +39,9 @@ inline void checkBuffer(T *buffer)
   }
 }
 
+#define _mm_malloc(psize) malloc(psize);
+#define _mm_free(psize) free(psize);
+
 template <typename T>
 T *alloc(uint64_t psize)
 {
@@ -122,42 +125,42 @@ public:
       size_t i, j;
       for (i=start_idx; i<end_idx; i+=stride_idx) {
         beta = 1.0;
-#if (ERT_FLOP & 1) == 1       
+#if (ERT_FLOP & 1) == 1
         KERNEL1(beta,accessor_buf[i],alpha);
 #endif
-#if (ERT_FLOP & 2) == 2       
+#if (ERT_FLOP & 2) == 2
         KERNEL2(beta,accessor_buf[i],alpha);
 #endif
-#if (ERT_FLOP & 4) == 4       
+#if (ERT_FLOP & 4) == 4
         REP2(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 8) == 8       
+#if (ERT_FLOP & 8) == 8
         REP4(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 16) == 16     
+#if (ERT_FLOP & 16) == 16
         REP8(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 32) == 32     
+#if (ERT_FLOP & 32) == 32
         REP16(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 64) == 64     
+#if (ERT_FLOP & 64) == 64
         REP32(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 128) == 128   
+#if (ERT_FLOP & 128) == 128
         REP64(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 256) == 256   
+#if (ERT_FLOP & 256) == 256
         REP128(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 512) == 512   
+#if (ERT_FLOP & 512) == 512
         REP256(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
-#if (ERT_FLOP & 1024) == 1024 
+#if (ERT_FLOP & 1024) == 1024
         REP512(KERNEL2(beta,accessor_buf[i],alpha));
 #endif
 
         accessor_buf[i] = -beta;
-        
+
       } //inner for
     } //outer for
     accessor_params[0] = accessor_buf.get_size() / accessor_buf.get_count();
@@ -177,13 +180,13 @@ inline void launchKernel(Kernel&& ocl_kernel, uint64_t n, uint64_t t, cl::Comman
 		         cl::Buffer d_buf, cl::Buffer d_params, cl::Event *event)
 {
   if ((global_size != 0) && (local_size != 0))
-    *event = ocl_kernel(cl::EnqueueArgs(queue, cl::NDRange(global_size), cl::NDRange(local_size)), 
+    *event = ocl_kernel(cl::EnqueueArgs(queue, cl::NDRange(global_size), cl::NDRange(local_size)),
                n, t, d_buf, d_params);
   else if ((global_size == 0) && (local_size != 0))
-    *event = ocl_kernel(cl::EnqueueArgs(queue, cl::NDRange(n), cl::NDRange(local_size)), 
+    *event = ocl_kernel(cl::EnqueueArgs(queue, cl::NDRange(n), cl::NDRange(local_size)),
                n, t, d_buf, d_params);
   else
-    *event = ocl_kernel(cl::EnqueueArgs(queue, cl::NDRange(n)), 
+    *event = ocl_kernel(cl::EnqueueArgs(queue, cl::NDRange(n)),
                n, t, d_buf, d_params);
 }
 #elif ERT_SYCL
@@ -203,7 +206,7 @@ inline void launchKernel(uint64_t n, uint64_t t, sycl::queue queue,
                          sycl_kernel(n, t, d_buf_accessor, d_params_accessor));
       });
   }
-  else if ((global_size == 0) && (local_size != 0)) 
+  else if ((global_size == 0) && (local_size != 0))
   {
     printf("Error: Default local size is not yet an option; specify OpenCL global and local size pairings in the config file.\n");
     exit(1);
@@ -270,7 +273,7 @@ void run(uint64_t PSIZE, T *buf, int rank, int nprocs, int *nthreads_ptr)
     int cl_err;
     if ((cl_err = platforms[0].getDevices(DEVICE, &devices)) != CL_SUCCESS) {
       switch (cl_err) {
-        case CL_INVALID_DEVICE_TYPE: 
+        case CL_INVALID_DEVICE_TYPE:
           fprintf(stderr, "ERROR: Invalide OpenCL device type\n");
 	  break;
 	default:
@@ -290,7 +293,7 @@ void run(uint64_t PSIZE, T *buf, int rank, int nprocs, int *nthreads_ptr)
       fprintf(stderr, "ERROR: Work group size > device maximum %ld\n", max_wg_size);
       exit(1);
     }
- 
+
     // Build the OpenCL kernel
 #ifdef ERT_FP16
   #define PRECISION "FP16"
@@ -472,10 +475,10 @@ void run(uint64_t PSIZE, T *buf, int rank, int nprocs, int *nthreads_ptr)
           cudaEventElapsedTime(&milliseconds, start, stop);
           seconds = static_cast<double>(milliseconds) / 1000.;
 #elif ERT_OCL
-	  seconds = (double)(event.getProfilingInfo<CL_PROFILING_COMMAND_END>() 
+	  seconds = (double)(event.getProfilingInfo<CL_PROFILING_COMMAND_END>()
 	            - event.getProfilingInfo<CL_PROFILING_COMMAND_START>()) * 1e-9;
 #elif ERT_SYCL
-          seconds = (double)(event.get_profiling_info<sycl::info::event_profiling::command_end>() 
+          seconds = (double)(event.get_profiling_info<sycl::info::event_profiling::command_end>()
                        - event.get_profiling_info<sycl::info::event_profiling::command_start>()) * 1e-9;
 #else
           endTime   = getTime();
