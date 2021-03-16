@@ -6,6 +6,9 @@
 % You may be able to remove this if causing issues
 \pgfplotsset{compat=1.11}
 
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
 \begin{document}
 
 \begin{tikzpicture}
@@ -24,7 +27,7 @@
   \def\Xmax{1.000000e+02}
 
   \begin{loglogaxis}[
-    title={Empirical Roofline Graph (Results.graoully.01/Run.006)},
+    title={Empirical Roofline Graph (\textit{Xeon E5 2630v3}, \texttt{-march=generic})},
     grid=both,
     grid style={black!50, densely dotted},
     xlabel= FLOPs/Byte,
@@ -36,7 +39,7 @@
     log ticks with fixed point
     ]
 
-    \node[maxlabel] at (axis cs: 2.0000000e+00,1.3608000e+01) {11.3 FP64/sec (Maximum)};
+    \node[maxlabel] at (axis cs: 2.0000000e+00,1.3608000e+01) {11.3 GFLOPs/s};
     \node[memlabel] at (axis cs: 2.8973756e-02,3.0423545e+00) {L1 - 86.8 GB/s};
     \node[memlabel] at (axis cs: 3.9237024e-02,2.2465628e+00) {L2 - 69.3 GB/s};
     \node[memlabel] at (axis cs: 5.4552668e-02,1.6158410e+00) {L3 - 35.8 GB/s};
@@ -49,6 +52,8 @@
     \addplot[memline, domain=(\Xmin:3.9803440e-01)] {2.8490000e+01*x};
     \addplot[memline, domain=(\Xmin:5.2768730e-01)] {2.1490000e+01*x};
     \addplot[maxline, domain=(1.3067527e-01:\Xmax)] {1.1340000e+01};
+
+    \node[label={0:{Best Achieved \textit{dgemv3} (\texttt{-march=generic})}},circle,fill,inner sep=2pt] at (axis cs:0.8/3.2,0.8/1.160198) {};
 
   \end{loglogaxis}
 \end{tikzpicture}
